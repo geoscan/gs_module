@@ -1,1 +1,1 @@
-from .core import BoardLedController,ModuleLedController
+from .core import BoardLedController,ModuleLedController,CargoController

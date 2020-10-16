@@ -7,6 +7,7 @@
 Классы:
 * BoardLedController
 * ModuleLedController
+* CargoController
 
 ## Описание классов:
 
@@ -48,10 +49,29 @@
 * geoscan/alive (gs_interfaces/Live)
 * geoscan/led/module/control_service (gs_interfaces/Led)
 
+### 3. CargoController
+Класс для управления модулем магнитного захвата
+
+#### Инициализация:
+Без параметров
+
+#### Поля:
+* __alive - rospy.ServiceProxy: gs_interfaces.srv.Live
+* __cargo_service - rospy.ServiceProxy: gs_interfaces.srv.Cargo
+
+#### Методы:
+* set() - включить магнитный захват
+* reset() -выключить магнитный захват
+
+#### Используемые сервисы:
+* geoscan/alive (gs_interfaces/Live)
+* geoscan/cargo (gs_interfaces/Cargo)
+
 ## Необходимые пакеты:
 ROS:
 * gs_interfaces
 * gs_core
+* std_msgs
 
 ## Примечание:
 Все классы в данном пакете могут быть использованы только при запущеной ноде ros_serial_node.py из пакета gs_core
