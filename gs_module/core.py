@@ -8,127 +8,104 @@ from std_msgs.msg import Bool,ColorRGBA
 
 class BoardLedController():
     def __init__(self):
-        self.__leds=[]
+        self.__leds = []
         for _ in range(0,4):
             self.__leds.append(ColorRGBA())
         rospy.wait_for_service("geoscan/alive")
-        rospy.wait_for_service("geoscan/led/board/control_service")
-        self.__alive=ServiceProxy("geoscan/alive",Live)
-        self.__led_service=ServiceProxy("geoscan/led/board/control_service",Led)
+        rospy.wait_for_service("geoscan/led/board/set")
+        self.__alive = ServiceProxy("geoscan/alive",Live)
+        self.__led_service = ServiceProxy("geoscan/led/board/set",Led)
 
     def changeColor(self,i,r,g,b):
-        if (self.__alive().status):
-            while True:
-                try:
-                    if ( ( (r >= 0.0) and (r <= 255.0) ) and ( (g >= 0.0) and (g <= 255.0) ) and ( (b >= 0.0) and (b <= 255.0) ) ):
-                        color=ColorRGBA()
-                        color.r=r
-                        color.g=g
-                        color.b=b
-                        self.__leds[i]=color
-                        status=self.__led_service(self.__leds).status
-                        if(status):
-                            break
-                    else:
-                        rospy.loginfo("Color value must be between 0.0 and 255.0 inclusive")
-                        break
-                except:
-                    rospy.loginfo("Index led: "+str(i)+" is not correct")
-                    break
+        if self.__alive().status:
+            try:
+                if ( ( (r >= 0.0) and (r <= 255.0) ) and ( (g >= 0.0) and (g <= 255.0) ) and ( (b >= 0.0) and (b <= 255.0) ) ):
+                    color = ColorRGBA()
+                    color.r = r
+                    color.g = g
+                    color.b = b
+                    self.__leds[i] = color
+                    return self.__led_service(self.__leds).status
+                else:
+                    rospy.logerr("Color value must be between 0.0 and 255.0 inclusive")
+            except:
+                rospy.logerr("Index led: {} is not correct".format(i))
         else:
-            rospy.loginfo("Wait, connecting to flight controller")
+            rospy.logwarn("Wait, connecting to flight controller")
     
     def changeAllColor(self,r,g,b):
-        if (self.__alive().status):
-            while True:
-                if ( ( (r >= 0.0) and (r <= 255.0) ) and ( (g >= 0.0) and (g <= 255.0) ) and ( (b >= 0.0) and (b <= 255.0) ) ):
-                    for i in range(0,len(self.__leds)):
-                        color=ColorRGBA()
-                        color.r=r
-                        color.g=g
-                        color.b=b
-                        self.__leds[i]=color
-                    status=self.__led_service(self.__leds).status
-                    if(status):
-                        break
-                else:
-                    rospy.loginfo("Color value must be between 0.0 and 255.0 inclusive")
-                    break
+        if self.__alive().status:
+            if ( ( (r >= 0.0) and (r <= 255.0) ) and ( (g >= 0.0) and (g <= 255.0) ) and ( (b >= 0.0) and (b <= 255.0) ) ):
+                for i in range(0,len(self.__leds)):
+                    color = ColorRGBA()
+                    color.r = r
+                    color.g = g
+                    color.b = b
+                    self.__leds[i] = color
+                return self.__led_service(self.__leds).status
+            else:
+                rospy.logerr("Color value must be between 0.0 and 255.0 inclusive")
         else:
-            rospy.loginfo("Wait, connecting to flight controller")
+            rospy.logwarn("Wait, connecting to flight controller")
 
 class ModuleLedController():
     def __init__(self):
-        self.__leds=[]
+        self.__leds = []
         for _ in range(0,25):
             self.__leds.append(ColorRGBA())
         rospy.wait_for_service("geoscan/alive")
-        rospy.wait_for_service("geoscan/led/module/control_service")
-        self.__alive=ServiceProxy("geoscan/alive",Live)
-        self.__led_service=ServiceProxy("geoscan/led/module/control_service",Led)
+        rospy.wait_for_service("geoscan/led/module/set")
+        self.__alive = ServiceProxy("geoscan/alive",Live)
+        self.__led_service = ServiceProxy("geoscan/led/module/set",Led)
 
     def changeColor(self,i,r,g,b):
-        if (self.__alive().status):
-            while True:
-                try:
-                    if ( ( (r >= 0.0) and (r <= 255.0) ) and ( (g >= 0.0) and (g <= 255.0) ) and ( (b >= 0.0) and (b <= 255.0) ) ):
-                        color=ColorRGBA()
-                        color.r=r
-                        color.g=g
-                        color.b=b
-                        self.__leds[i]=color
-                        status=self.__led_service(self.__leds).status
-                        if(status):
-                            break
-                    else:
-                        rospy.loginfo("Color value must be between 0.0 and 255.0 inclusive")
-                        break
-                except:
-                    rospy.loginfo("Index led: "+str(i)+" is not correct")
-                    break
+        if self.__alive().status:
+            try:
+                if ( ( (r >= 0.0) and (r <= 255.0) ) and ( (g >= 0.0) and (g <= 255.0) ) and ( (b >= 0.0) and (b <= 255.0) ) ):
+                    color = ColorRGBA()
+                    color.r = r
+                    color.g = g
+                    color.b = b
+                    self.__leds[i] = color
+                    return self.__led_service(self.__leds).status
+                else:
+                    rospy.logerr("Color value must be between 0.0 and 255.0 inclusive")
+            except:
+                rospy.logerr("Index led: {} is not correct".format(i))
         else:
-            rospy.loginfo("Wait, connecting to flight controller")
+            rospy.logwarn("Wait, connecting to flight controller")
     
     def changeAllColor(self,r,g,b):
-        if (self.__alive().status):
-            while True:
-                if ( ( (r >= 0.0) and (r <= 255.0) ) and ( (g >= 0.0) and (g <= 255.0) ) and ( (b >= 0.0) and (b <= 255.0) ) ):
-                    for i in range(0,len(self.__leds)):
-                        color=ColorRGBA()
-                        color.r=r
-                        color.g=g
-                        color.b=b
-                        self.__leds[i]=color
-                    status=self.__led_service(self.__leds).status
-                    if(status):
-                        break
-                else:
-                    rospy.loginfo("Color value must be between 0.0 and 255.0 inclusive")
-                    break
+        if self.__alive().status:
+            if ( ( (r >= 0.0) and (r <= 255.0) ) and ( (g >= 0.0) and (g <= 255.0) ) and ( (b >= 0.0) and (b <= 255.0) ) ):
+                for i in range(0,len(self.__leds)):
+                    color = ColorRGBA()
+                    color.r = r
+                    color.g = g
+                    color.b = b
+                    self.__leds[i] = color
+                return self.__led_service(self.__leds).status
+            else:
+                rospy.logerr("Color value must be between 0.0 and 255.0 inclusive")
         else:
-            rospy.loginfo("Wait, connecting to flight controller")
+            rospy.logwarn("Wait, connecting to flight controller")
+
 
 class CargoController():
     def __init__(self):
         rospy.wait_for_service("geoscan/alive")
-        rospy.wait_for_service("geoscan/cargo")
-        self.__alive=ServiceProxy("geoscan/alive",Live)
-        self.__cargo_service=ServiceProxy("geoscan/cargo",Cargo)
+        rospy.wait_for_service("geoscan/cargo/set")
+        self.__alive = ServiceProxy("geoscan/alive",Live)
+        self.__cargo_service = ServiceProxy("geoscan/cargo/set",Cargo)
 
     def set(self):
-        if(self.__alive().status):
-            while True:
-                status=self.__cargo_service(True).status
-                if(status):
-                    break
+        if self.__alive().status:
+            return self.__cargo_service(True).status
         else:
-           rospy.loginfo("Wait, connecting to flight controller")
+            rospy.logwarn("Wait, connecting to flight controller")
 
     def reset(self):
-        if(self.__alive().status):
-            while True:
-                status=self.__cargo_service(False).status
-                if(status):
-                    break
+        if self.__alive().status:
+            return self.__cargo_service(False).status
         else:
-           rospy.loginfo("Wait, connecting to flight controller")
+            rospy.logwarn("Wait, connecting to flight controller")
