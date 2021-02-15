@@ -5,6 +5,8 @@ import rospy
 from gs_interfaces.srv import Led,Live,Cargo
 from rospy import ServiceProxy
 from std_msgs.msg import Bool,ColorRGBA
+import RPi.GPIO as GPIO
+import json, socket
 
 class BoardLedController():
     def __init__(self):
@@ -90,22 +92,25 @@ class ModuleLedController():
         else:
             rospy.logwarn("Wait, connecting to flight controller")
 
-
 class CargoController():
     def __init__(self):
-        rospy.wait_for_service("geoscan/alive")
-        rospy.wait_for_service("geoscan/cargo/set")
-        self.__alive = ServiceProxy("geoscan/alive",Live)
-        self.__cargo_service = ServiceProxy("geoscan/cargo/set",Cargo)
+        GPIO.setmode(GPIO.BCM)
+        GPIO.setwarnings(False)
+        self.__gpio_number = 17
+        GPIO.setup(self.__gpio_number, GPIO.OUT)
 
-    def set(self):
-        if self.__alive().status:
-            return self.__cargo_service(True).status
-        else:
-            rospy.logwarn("Wait, connecting to flight controller")
+    def on(self):
+        GPIO.output(self.__gpio_number, True)
 
-    def reset(self):
-        if self.__alive().status:
-            return self.__cargo_service(False).status
-        else:
-            rospy.logwarn("Wait, connecting to flight controller")
+    def off(self):
+        GPIO.output(self.__gpio_number, False)
+
+    def changeColor(self, r=0, g=0, b=0, n=0):
+        clientsocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        clientsocket.connect(('localhost', 9090))
+        clientsocket.send(bytes(json.dumps({'r':r, 'g':g, 'b':b, 'n':n}), encoding='utf-8'))
+
+    def changeAllColor(self, r=0, g=0, b=0):
+        clientsocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        clientsocket.connect(('localhost', 9090))
+        clientsocket.send(bytes(json.dumps({'r':r, 'g':g, 'b':b, 'n':255}), encoding='utf-8'))
