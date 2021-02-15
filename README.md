@@ -56,22 +56,24 @@
 Без параметров
 
 #### Поля:
-* __alive - rospy.ServiceProxy: gs_interfaces.srv.Live
-* __cargo_service - rospy.ServiceProxy: gs_interfaces.srv.Cargo
+* __gpio_number: int - Номер GPIO порта (17)
 
 #### Методы:
-* set() - включить магнитный захват
-* reset() -выключить магнитный захват
-
-#### Используемые сервисы:
-* geoscan/alive (gs_interfaces/Live)
-* geoscan/cargo/set (gs_interfaces/Cargo)
+* on() - включить магнитный захват
+* off() -выключить магнитный захват
+* changeColor(r, g, b, n) - поменять цвет светодиода n
+* changeAllColor(r, g, b) - поменять цыет всех светодиодов
 
 ## Необходимые пакеты:
 ROS:
 * gs_interfaces
 * gs_core
 * std_msgs
+
+Python:
+* RPi.GPIO
+* json
+* socket
 
 ## Примечание:
 Все классы в данном пакете могут быть использованы только при запущеной ноде ros_plaz_node.py из пакета gs_core
