@@ -7,7 +7,6 @@
 Классы:
 * BoardLedController
 * ModuleLedController
-* CargoController
 
 ## Описание классов:
 
@@ -15,7 +14,7 @@
 Класс для управления светодидами на борту
 
 #### Инициализация:
-Без параметров
+BoardLedController(namespace = "") - namespace пространство имен в котором находится Пионер
 
 #### Поля:
 * __leds - list: std_msgs.msg.ColorRGBA
@@ -34,7 +33,7 @@
 Класс для управления LED модулем
 
 #### Инициализация:
-Без параметров
+ModuleLedController(namespace = "") - namespace пространство имен в котором находится Пионер
 
 #### Поля:
 * __leds - list: std_msgs.msg.ColorRGBA
@@ -49,31 +48,11 @@
 * geoscan/alive (gs_interfaces/Live)
 * geoscan/led/module/set (gs_interfaces/Led)
 
-### 3. CargoController
-Класс для управления модулем магнитного захвата
-
-#### Инициализация:
-Без параметров
-
-#### Поля:
-* __gpio_number: int - Номер GPIO порта (17)
-
-#### Методы:
-* on() - включить магнитный захват
-* off() -выключить магнитный захват
-* changeColor(r, g, b, n) - поменять цвет светодиода n
-* changeAllColor(r, g, b) - поменять цыет всех светодиодов
-
 ## Необходимые пакеты:
 ROS:
 * gs_interfaces
 * gs_core
 * std_msgs
-
-Python:
-* RPi.GPIO
-* json
-* socket
 
 ## Примечание:
 Все классы, кроме CargoController, могут быть использованы только при запущеной ноде ros_plaz_node.py из пакета gs_core
