@@ -58,7 +58,7 @@ class ModuleLedController():
             namespace += "/"
 
         self.__leds = []
-        for _ in range(0,25):
+        for _ in range(0, 10):
             self.__leds.append(ColorRGBA())
 
         rospy.wait_for_service(f"{namespace}geoscan/alive")
