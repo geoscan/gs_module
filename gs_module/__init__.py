@@ -1,1 +1,1 @@
-from .core import BoardLedController, ModuleLedController
+from .gs_module import BoardLedController, ModuleLedController
